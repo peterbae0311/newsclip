@@ -94,8 +94,8 @@ export default function ArticleList({
           {" · "}
           <span className="text-blue-600 font-semibold">{articles.length}건</span>
         </p>
-        <div className="flex justify-center gap-[5%] items-stretch">
-          <div className="w-[45%] flex flex-col gap-2">
+        <div className="flex flex-col sm:flex-row sm:justify-center gap-3 sm:gap-[5%] items-stretch">
+          <div className="w-full sm:w-[45%] flex flex-col gap-2">
             {left.map((article, idx) => (
               <ArticleCard
                 key={article.id}
@@ -105,7 +105,7 @@ export default function ArticleList({
               />
             ))}
           </div>
-          <div className="w-[45%] flex flex-col gap-2">
+          <div className="w-full sm:w-[45%] flex flex-col gap-2">
             {right.map((article, idx) => (
               <ArticleCard
                 key={article.id}
@@ -120,16 +120,14 @@ export default function ArticleList({
     );
   }
 
-  // ── 전체(다중 서브카테고리): 기존 그리드 레이아웃 유지 ──
+  // ── 전체(다중 서브카테고리): 모바일 1열, 데스크탑 N열 ──
+  const colClass =
+    n <= 2 ? "sm:grid-cols-2" :
+    n <= 3 ? "sm:grid-cols-3" :
+    n <= 4 ? "sm:grid-cols-4" : "sm:grid-cols-5";
+
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: `repeat(${n}, 1fr)`,
-        gap: "1.25rem",
-        alignItems: "stretch",
-      }}
-    >
+    <div className={`grid grid-cols-1 ${colClass} gap-4 items-stretch`}>
       {subcategories.map((sub) => {
         const articles = (articlesBySubcategory[sub.id] || []).slice(0, limit);
         if (!articles.length) return null;
