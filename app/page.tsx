@@ -25,13 +25,13 @@ function SubcategoryChip({
   const [show, setShow] = useState(false);
 
   return (
-    <div className="tooltip-container group">
+    <div className="tooltip-container group flex-shrink-0">
       <div className="relative flex items-center">
         <button
           onClick={onClick}
           onMouseEnter={() => setShow(true)}
           onMouseLeave={() => setShow(false)}
-          className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all border pr-8 ${
+          className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all border pr-8 whitespace-nowrap ${
             isActive
               ? "bg-blue-600 text-white border-blue-600"
               : "bg-white text-gray-700 border-gray-300 hover:border-blue-400 hover:text-blue-600"
@@ -239,38 +239,38 @@ export default function HomePage() {
       {/* ── 헤더 + 탭 영역 고정 ── */}
       <div className="sticky top-0 z-30">
       {/* ── 헤더 ── */}
-      <header className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
-        <h1 className="text-lg font-bold text-gray-900">📰 분야별 최신 기사</h1>
-        <div className="flex items-center gap-2">
+      <header className="bg-white border-b border-gray-200 px-3 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-2">
+        <h1 className="text-sm sm:text-lg font-bold text-gray-900 whitespace-nowrap">📰 분야별 최신 기사</h1>
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
           {status && (
-            <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full animate-pulse">
+            <span className="hidden sm:inline text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full animate-pulse">
               {status}
             </span>
           )}
           <button
             onClick={() => setShowCreateModal(true)}
-            className="px-3 py-1.5 rounded-lg border border-dashed border-gray-400 text-sm text-gray-600 hover:bg-gray-50 hover:border-blue-400 hover:text-blue-600 transition-all"
+            className="px-2 sm:px-3 py-1.5 rounded-lg border border-dashed border-gray-400 text-xs sm:text-sm text-gray-600 hover:bg-gray-50 hover:border-blue-400 hover:text-blue-600 transition-all whitespace-nowrap"
           >
-            ＋ 카테고리 생성
+            ＋ <span className="hidden sm:inline">카테고리 </span>생성
           </button>
           <button
             onClick={() => setShowSourcesModal(true)}
-            className="px-3 py-1.5 rounded-lg border border-gray-300 text-sm text-gray-600 hover:bg-gray-50 hover:border-indigo-400 hover:text-indigo-600 transition-all"
+            className="px-2 sm:px-3 py-1.5 rounded-lg border border-gray-300 text-xs sm:text-sm text-gray-600 hover:bg-gray-50 hover:border-indigo-400 hover:text-indigo-600 transition-all whitespace-nowrap"
           >
-            📋 출처 관리
+            📋 <span className="hidden sm:inline">출처 관리</span>
           </button>
         </div>
       </header>
 
       {/* ── 탭 영역 ── */}
-      <div className="bg-white border-b border-gray-200 px-6">
+      <div className="bg-white border-b border-gray-200 px-3 sm:px-6">
         {/* 카테고리 탭 행 */}
-        <div className="flex items-center gap-1 pt-3">
-          <div className="flex items-center gap-1 flex-1 flex-wrap">
+        <div className="flex items-center gap-1 pt-2 sm:pt-3">
+          <div className="flex items-center gap-1 flex-1 overflow-x-auto no-scrollbar flex-nowrap">
             {/* 기사 검색 고정 탭 */}
             <button
               onClick={() => { setActiveCategory(SEARCH_TAB); setActiveSubcategory(null); }}
-              className={`px-4 py-1.5 rounded-t-lg text-sm font-medium border-b-2 transition-all ${
+              className={`px-3 sm:px-4 py-1.5 rounded-t-lg text-sm font-medium border-b-2 transition-all whitespace-nowrap flex-shrink-0 ${
                 activeCategory === SEARCH_TAB
                   ? "border-blue-600 text-blue-700 bg-blue-50"
                   : "border-transparent text-gray-600 hover:text-blue-600 hover:bg-gray-50"
@@ -285,7 +285,7 @@ export default function HomePage() {
                     setActiveCategory(cat.id);
                     setActiveSubcategory(null);
                   }}
-                  className={`px-4 py-1.5 rounded-t-lg text-sm font-medium border-b-2 transition-all pr-12 ${
+                  className={`px-3 sm:px-4 py-1.5 rounded-t-lg text-sm font-medium border-b-2 transition-all pr-10 whitespace-nowrap flex-shrink-0 ${
                     activeCategory === cat.id
                       ? "border-blue-600 text-blue-700 bg-blue-50"
                       : "border-transparent text-gray-600 hover:text-blue-600 hover:bg-gray-50"
@@ -326,68 +326,73 @@ export default function HomePage() {
             )}
           </div>
 
-          {/* 기사 보기 버튼 */}
-          {activeCategory && activeCategory !== SEARCH_TAB && (
+        </div>
+
+        {/* 서브카테고리 행 + 기사 보기 버튼 */}
+        {activeCategory && activeCategory !== SEARCH_TAB && (
+          <div className="flex items-center gap-2 py-2 sm:py-2.5">
+            {/* 서브카테고리 칩 — 가로 스크롤 */}
+            <div className="flex items-center gap-2 flex-1 overflow-x-auto no-scrollbar flex-nowrap">
+              {currentSubs.length > 0 && (
+                <button
+                  onClick={() => setActiveSubcategory(null)}
+                  className={`px-3 py-1 rounded-full text-sm transition-all border whitespace-nowrap flex-shrink-0 ${
+                    !activeSubcategory
+                      ? "bg-gray-800 text-white border-gray-800"
+                      : "bg-white text-gray-500 border-gray-300 hover:border-gray-500"
+                  }`}
+                >
+                  전체
+                </button>
+              )}
+              {currentSubs.map((sub) => (
+                <SubcategoryChip
+                  key={sub.id}
+                  sub={sub}
+                  isActive={activeSubcategory === sub.id}
+                  onClick={() =>
+                    setActiveSubcategory(
+                      activeSubcategory === sub.id ? null : sub.id
+                    )
+                  }
+                  onEdit={() => setEditTarget({ type: "subcategory", item: sub })}
+                />
+              ))}
+              {currentSubs.length > 1 && (
+                <button
+                  onClick={() => setShowOrderModal(true)}
+                  title="순서 변경"
+                  className="ml-1 px-2.5 py-1 rounded-lg border border-gray-300 text-xs text-gray-500 hover:border-blue-400 hover:text-blue-600 transition-all whitespace-nowrap flex-shrink-0"
+                >
+                  ⇅ 순서
+                </button>
+              )}
+              <button
+                onClick={() => setShowAddSubModal(true)}
+                title="서브카테고리 추가"
+                className="ml-1 px-2.5 py-1 rounded-lg border border-dashed border-gray-400 text-xs text-gray-500 hover:border-blue-400 hover:text-blue-600 transition-all whitespace-nowrap flex-shrink-0"
+              >
+                ＋ 추가
+              </button>
+            </div>
+
+            {/* 기사 보기 버튼 — 항상 오른쪽 고정 */}
             <button
               onClick={handleFetchArticles}
               disabled={fetching}
-              className="ml-auto flex-shrink-0 px-4 py-1.5 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-60 transition-colors flex items-center gap-1.5"
+              className="flex-shrink-0 px-3 sm:px-4 py-1.5 rounded-lg bg-blue-600 text-white text-xs sm:text-sm font-medium hover:bg-blue-700 disabled:opacity-60 transition-colors flex items-center gap-1"
             >
               {fetching ? (
                 <>
-                  <span className="animate-spin inline-block w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full" />
-                  수집 중…
+                  <span className="animate-spin inline-block w-3 h-3 border-2 border-white border-t-transparent rounded-full" />
+                  <span className="hidden sm:inline">수집 중…</span>
                 </>
               ) : (
-                "📥 기사 보기"
+                <>
+                  <span>📥</span>
+                  <span className="hidden sm:inline">기사 보기</span>
+                </>
               )}
-            </button>
-          )}
-        </div>
-
-        {/* 서브카테고리 행 */}
-        {activeCategory && activeCategory !== SEARCH_TAB && (
-          <div className="flex items-center gap-2 py-2.5 flex-wrap">
-            {currentSubs.length > 0 && (
-              <button
-                onClick={() => setActiveSubcategory(null)}
-                className={`px-3 py-1 rounded-full text-sm transition-all border ${
-                  !activeSubcategory
-                    ? "bg-gray-800 text-white border-gray-800"
-                    : "bg-white text-gray-500 border-gray-300 hover:border-gray-500"
-                }`}
-              >
-                전체
-              </button>
-            )}
-            {currentSubs.map((sub) => (
-              <SubcategoryChip
-                key={sub.id}
-                sub={sub}
-                isActive={activeSubcategory === sub.id}
-                onClick={() =>
-                  setActiveSubcategory(
-                    activeSubcategory === sub.id ? null : sub.id
-                  )
-                }
-                onEdit={() => setEditTarget({ type: "subcategory", item: sub })}
-              />
-            ))}
-            {currentSubs.length > 1 && (
-              <button
-                onClick={() => setShowOrderModal(true)}
-                title="순서 변경"
-                className="ml-1 px-2.5 py-1 rounded-lg border border-gray-300 text-xs text-gray-500 hover:border-blue-400 hover:text-blue-600 transition-all"
-              >
-                ⇅ 순서
-              </button>
-            )}
-            <button
-              onClick={() => setShowAddSubModal(true)}
-              title="서브카테고리 추가"
-              className="ml-1 px-2.5 py-1 rounded-lg border border-dashed border-gray-400 text-xs text-gray-500 hover:border-blue-400 hover:text-blue-600 transition-all"
-            >
-              ＋ 추가
             </button>
           </div>
         )}
@@ -395,12 +400,12 @@ export default function HomePage() {
       </div>{/* ── sticky 끝 ── */}
 
       {/* ── 기사 목록 ── */}
-      <main className="mx-auto px-6 py-6 w-full">
+      <main className="mx-auto px-3 sm:px-6 py-4 sm:py-6 w-full">
         {activeCategory === SEARCH_TAB ? (
           /* ── 기사 검색 탭 ── */
           <div className="w-full">
             {/* 검색 입력 */}
-            <div className="flex items-center gap-2 mb-6 w-1/2 mx-auto">
+            <div className="flex items-center gap-2 mb-6 w-full sm:w-1/2 mx-auto">
               <div className="relative flex-1">
                 <input
                   type="text"
@@ -446,13 +451,13 @@ export default function HomePage() {
               <p className="text-sm text-gray-400 text-center py-12">검색 결과가 없습니다.</p>
             ) : (
               <>
-                <p className="text-xs text-gray-400 mb-3 w-1/2 mx-auto">
+                <p className="text-xs text-gray-400 mb-3 w-full sm:w-1/2 mx-auto">
                   검색 결과 <span className="text-blue-600 font-semibold">{searchResults.length}건</span>
                 </p>
-                {/* 좌 45% / 우 45%, 양 열 높이 동일 */}
-                <div className="flex justify-center gap-[5%] items-stretch">
+                {/* 모바일: 1열, 데스크탑: 좌 45% / 우 45% */}
+                <div className="flex flex-col sm:flex-row sm:justify-center gap-3 sm:gap-[5%] items-stretch">
                   {[searchResults.slice(0, 15), searchResults.slice(15, 30)].map((col, ci) => (
-                    <div key={ci} className="w-[45%] flex flex-col gap-2">
+                    <div key={ci} className="w-full sm:w-[45%] flex flex-col gap-2">
                       {col.map((article, idx) => (
                         <div
                           key={article.id}

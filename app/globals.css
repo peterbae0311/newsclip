@@ -57,6 +57,10 @@ body {
   border-bottom-color: #1e293b;
 }
 
+/* 가로 스크롤바 숨김 (탭 영역) */
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
 /* 애니메이션 */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(4px); }
