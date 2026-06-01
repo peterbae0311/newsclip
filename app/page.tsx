@@ -279,40 +279,30 @@ export default function HomePage() {
               🔍 기사 검색
             </button>
             {categories.map((cat) => (
-              <div key={cat.id} className="relative group flex items-center">
-                <button
-                  onClick={() => {
-                    setActiveCategory(cat.id);
-                    setActiveSubcategory(null);
-                  }}
-                  className={`px-3 sm:px-4 py-1.5 rounded-t-lg text-sm font-medium border-b-2 transition-all pr-10 whitespace-nowrap flex-shrink-0 ${
-                    activeCategory === cat.id
-                      ? "border-blue-600 text-blue-700 bg-blue-50"
-                      : "border-transparent text-gray-600 hover:text-blue-600 hover:bg-gray-50"
-                  }`}
-                >
-                  {cat.name}
-                </button>
-                {/* 수정·삭제 버튼 — 호버 시 표시 */}
-                <div className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-all">
+              <div
+                key={cat.id}
+                onClick={() => { setActiveCategory(cat.id); setActiveSubcategory(null); }}
+                className={`group px-3 sm:px-4 py-1.5 rounded-t-lg text-sm font-medium border-b-2 transition-all flex items-center gap-1 whitespace-nowrap flex-shrink-0 cursor-pointer ${
+                  activeCategory === cat.id
+                    ? "border-blue-600 text-blue-700 bg-blue-50"
+                    : "border-transparent text-gray-600 hover:text-blue-600 hover:bg-gray-50"
+                }`}
+              >
+                <span>{cat.name}</span>
+                {/* 수정·삭제 — 탭 내부, 호버 시 펼침 */}
+                <div className="flex items-center gap-0.5 overflow-hidden max-w-0 group-hover:max-w-[3rem] transition-[max-width] duration-150">
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setEditTarget({ type: "category", item: cat });
-                    }}
+                    onClick={(e) => { e.stopPropagation(); setEditTarget({ type: "category", item: cat }); }}
                     title="카테고리 수정"
-                    className="w-4 h-4 flex items-center justify-center rounded-full text-gray-300 hover:text-blue-500 hover:bg-blue-50 text-xs leading-none"
+                    className="w-4 h-4 flex items-center justify-center rounded-full text-gray-400 hover:text-blue-500 hover:bg-blue-50 text-xs leading-none flex-shrink-0"
                   >
                     ✎
                   </button>
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteCategory(cat.id, cat.name);
-                    }}
+                    onClick={(e) => { e.stopPropagation(); handleDeleteCategory(cat.id, cat.name); }}
                     disabled={deletingId === cat.id}
                     title="카테고리 삭제"
-                    className="w-4 h-4 flex items-center justify-center rounded-full text-gray-300 hover:text-red-500 hover:bg-red-50 text-xs leading-none"
+                    className="w-4 h-4 flex items-center justify-center rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 text-xs leading-none flex-shrink-0"
                   >
                     {deletingId === cat.id ? "…" : "×"}
                   </button>
